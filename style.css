@@ -1,0 +1,16 @@
+.brat-style-btn {
+  /* Fondo Verde Brat */
+  background-color: #8BCF00; /* Verde ácido característico */
+  
+  /* Texto y Fuente */
+  color: black; /* Texto en negro */
+  font-family: 'Arial Narrow', sans-serif; /* Fuente condensada y simple */
+  font-size: 24px;
+  text-transform: lowercase; /* ¡Todo en minúsculas! */
+  font-weight: bold;
+  
+  /* Formato del Botón */
+  border: none; /* Quitamos el borde por defecto */
+  padding: 10px 20px;
+  cursor: pointer;
+}

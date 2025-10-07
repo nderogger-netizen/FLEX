@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flex Pattern Website</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+        body {
+            min-height: 100vh;
+            min-width: 100vw;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            background-image: radial-gradient(circle, black 10px, rgba(0, 0, 0, 0) 4px);
+            background-size: 22px 22px;
+            transition: background 0.3s, background-color 0.3s;
+        }
+
+        body.red-bg {
+            background-color: #E2001F !important;
+            background-image: none !important;
+        }
+
+        .top-left-btn {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 100;
+        }
+
+        .top-left-btn button {
+            background: #E2001F;
+            color: #fff;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .center-container {
+            flex: 1 1 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .flex-box {
+            color: #E2001F;
+            font-family: 'Oswald', 'Arial Black', Arial, sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            aspect-ratio: 1 / 1;
+            width: min(80vw, 80vh);
+            height: min(80vw, 80vh);
+            min-width: 120px;
+            min-height: 120px;
+            max-width: 90vw;
+            max-height: 90vh;
+            word-break: break-word;
+            box-sizing: border-box;
+            text-align: center;
+            transition: color 0.3s, font-size 0.2s;
+            line-height: 1.1;
+            background: transparent;
+            overflow: hidden;
+            font-size: 10vw;
+        }
+
+        .flex-text {
+            width: 90%;
+            height: 90%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        body.red-bg .flex-box {
+            color: #fff;
+        }
+
+        .input-area {
+            position: fixed;
+            bottom: 40px;
+            left: 0;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+        }
+
+        .input-area input {
+            font-size: 20px;
+            padding: 6px 12px;
+        }
+
+        .input-area button {
+            font-size: 20px;
+            padding: 6px 16px;
+            background: #E2001F;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+
+        @media (max-width: 600px) {
+            .flex-box {
+                width: 90vw;
+                height: 90vw;
+                min-width: 80px;
+                min-height: 80px;
+                font-size: 12vw;
+            }
+            .input-area input,
+            .input-area button {
+                font-size: 6vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-left-btn">
+        <button id="toggleBgBtn" onclick="toggleBg()">Fondo rojo</button>
+    </div>
+    <div class="center-container">
+        <div class="flex-box" id="logoBox">
+            <span class="flex-text" id="flexText">FLEX</span>
+        </div>
+    </div>
+    <div class="input-area">
+        <input type="text" id="phraseInput" maxlength="40" placeholder="Escribe una frase breve...">
+        <button onclick="updateLogo()">Actualizar</button>
+    </div>
+    <script>
+        let redBg = false;
+        function toggleBg() {
+            redBg = !redBg;
+            document.body.classList.toggle('red-bg', redBg);
+            document.getElementById('toggleBgBtn').textContent = redBg ? 'Fondo Flex' : 'Fondo rojo';
+        }
+
+        function fitTextToBox() {
+            const box = document.getElementById('logoBox');
+            const text = document.getElementById('flexText');
+            let fontSize = 10; // tamaño mínimo
+            text.style.fontSize = fontSize + 'px';
+            // Ajusta el tamaño hasta que el texto ocupe el máximo espacio posible sin desbordar
+            while (
+                (text.scrollWidth <= box.clientWidth * 0.95) &&
+                (text.scrollHeight <= box.clientHeight * 0.95) &&
+                fontSize < 500
+            ) {
+                fontSize += 2;
+                text.style.fontSize = fontSize + 'px';
+            }
+            // Retrocede un paso para asegurar que no se desborde
+            text.style.fontSize = (fontSize - 2) + 'px';
+        }
+
+        function updateLogo() {
+            const input = document.getElementById('phraseInput').value;
+            const text = document.getElementById('flexText');
+            text.textContent = input.trim() ? input : 'FLEX';
+            fitTextToBox();
+        }
+
+        window.onload = fitTextToBox;
+        window.onresize = fitTextToBox;
+    </script>
+</body>
+</html>
